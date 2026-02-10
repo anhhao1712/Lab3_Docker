@@ -1,0 +1,39 @@
+
+version: '3.8'
+
+services:
+  node0:
+    image: networkstatic/iperf3
+    container_name: node0
+    # Chạy 2 tiến trình server ngầm trên 2 port khác nhau
+    entrypoint: ["sh", "-c", "iperf3 -s -p 5201 & iperf3 -s -p 5202"]
+    networks:
+      iot_net:
+        ipv4_address: 172.30.0.10
+
+  node1:
+    image: networkstatic/iperf3
+    container_name: node1
+    # Kết nối tới port 5201
+    command: ["-c", "172.30.0.10", "-p", "5201", "-u", "-b", "10M", "-t", "10"]
+    depends_on: node0
+    networks:
+      iot_net:
+        ipv4_address: 172.30.0.11
+
+  node2:
+    image: networkstatic/iperf3
+    container_name: node2
+    # Kết nối tới port 5202
+    command: ["-c", "172.30.0.10", "-p", "5202", "-u", "-b", "5M", "-t", "10"]
+    depends_on: node0
+    networks:
+      iot_net:
+        ipv4_address: 172.30.0.12
+
+networks:
+  iot_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
