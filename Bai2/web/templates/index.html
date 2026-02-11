@@ -1,0 +1,43 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<div class="text-center">
+  <h1>Welcome!</h1>
+  <p class="lead">Flask + Docker + PostgreSQL</p>
+</div>
+
+<br>
+
+<form action="/submit" method="POST">
+  <div class="form-group">
+    <input
+      name="text"
+      class="form-control input-lg"
+      type="text"
+      placeholder="Enter a message"
+      required
+    >
+  </div>
+
+  <button type="submit" class="btn btn-primary btn-lg btn-block">
+    Submit
+  </button>
+</form>
+
+<br>
+<hr>
+
+<div>
+  {% for post in posts %}
+    <div class="well">
+      <strong>{{ post.text }}</strong>
+      <br>
+      <small class="text-muted">
+        {{ post.date_posted.strftime('%Y-%m-%d') }}
+      </small>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

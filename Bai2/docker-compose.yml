@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  web:
+    build: ./web
+    ports:
+      - "8888:8000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: baonv
+      POSTGRES_PASSWORD: baonv123
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
