@@ -1,85 +1,93 @@
-LAB 3 – DOCKER & DOCKER COMPOSE
+# 🚀 LAB 3 – DOCKER & DOCKER COMPOSE
 
 Bài thực hành gồm 2 phần:
 
-Bài 1: Iperf3 UDP với Docker Compose
+* 🧪 **Bài 1:** Iperf3 UDP với Docker Compose
+* 🌐 **Bài 2:** Web Flask + PostgreSQL với Docker Compose
 
-Bài 2: Web Flask + PostgreSQL với Docker Compose
+---
 
-Yêu cầu: Máy đã cài Docker và Docker Compose.
+## 📌 YÊU CẦU
 
-BÀI 1 – IPERF3 UDP
-Mô tả
+* Đã cài đặt **Docker**
+* Đã cài đặt **Docker Compose**
 
-Hệ thống gồm 3 container:
+---
 
-node0: Iperf3 UDP Server
+## 🧪 BÀI 1 – IPERF3 UDP
 
-node1: UDP Client (10 Mbps)
+### 🔎 1. Mô tả
 
-node2: UDP Client (5 Mbps)
+Hệ thống gồm 3 container chạy trong cùng một Docker Network nội bộ:
 
-Các container chạy trong cùng Docker network nội bộ.
+| Container | Vai trò |
+|-----------|---------|
+| `node0` | Iperf3 UDP Server |
+| `node1` | UDP Client – 10 Mbps |
+| `node2` | UDP Client – 5 Mbps |
 
-Cách chạy
+### ▶️ 2. Cách chạy
 
-Mở terminal tại thư mục Bai1:
-
+Mở terminal tại thư mục `Bai1`:
+```bash
 cd Bai1
 docker compose up
-Kết quả mong đợi
+```
 
-Docker tạo network và 3 container.
+### ✅ 3. Kết quả mong đợi
 
-node1 đạt khoảng 10 Mbits/sec.
+* Docker tạo network và 3 container
+* `node1` đạt khoảng **10 Mbits/sec**
+* `node2` đạt khoảng **5 Mbits/sec**
+* Packet loss = **0%**
+* Hai client hoạt động song song trên hai port khác nhau
 
-node2 đạt khoảng 5 Mbits/sec.
-
-Packet loss = 0%.
-
-Hai client chạy song song trên hai port khác nhau.
-
-Dừng hệ thống:
-
+### ⛔ 4. Dừng hệ thống
+```bash
 docker compose down
-BÀI 2 – FLASK + POSTGRESQL
-Mô tả
+```
 
-Hệ thống gồm:
+---
 
-web: Ứng dụng Flask
+## 🌐 BÀI 2 – FLASK + POSTGRESQL
 
-postgres: Cơ sở dữ liệu PostgreSQL
+### 🔎 1. Mô tả
 
-Hai container chạy trong cùng Docker network và giao tiếp nội bộ bằng tên service.
+Hệ thống gồm 2 container giao tiếp qua Docker Network bằng tên service:
 
-Cách chạy
+| Container | Vai trò |
+|-----------|---------|
+| `web` | Ứng dụng Flask |
+| `postgres` | Cơ sở dữ liệu PostgreSQL |
 
-Mở terminal tại thư mục Bai2:
+### ▶️ 2. Cách chạy
 
+Mở terminal tại thư mục `Bai2`:
+```bash
 cd Bai2
 docker compose up --build
+```
 
-Lần đầu chạy sẽ build image từ Dockerfile.
-
-Truy cập hệ thống
+### 🌍 3. Truy cập hệ thống
 
 Mở trình duyệt và truy cập:
-
+```
 http://localhost:8888
-Chức năng
+```
 
-Nhập nội dung vào form.
+### 🧩 4. Chức năng
 
-Nhấn Submit để lưu vào database.
+* Nhập nội dung vào form
+* Nhấn **Submit** để lưu vào database
+* Trang reload và hiển thị dữ liệu mới
+* Reload lại trình duyệt dữ liệu vẫn còn do được lưu trong **PostgreSQL**
 
-Trang reload và hiển thị dữ liệu vừa thêm.
-
-Reload lại trình duyệt dữ liệu vẫn còn do được lưu trong PostgreSQL.
-
-Dừng hệ thống
+### ⛔ 5. Dừng hệ thống
+```bash
 docker compose down
+```
 
-Nếu muốn xóa luôn database:
-
+> Xóa luôn database (volume):
+```bash
 docker compose down -v
+```
